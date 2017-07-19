@@ -58,6 +58,15 @@ x-wso2-security:
         roles: Internal/subscriber
         name: apim:subscribe
         key: apim:subscribe
+        
+securityDefinitions:
+  OAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://apis.wso2.com/oauth2/authorize
+    tokenUrl: https://apis.wso2.com/oauth2/token
+    scopes:
+      apim:subscribe: apim:subscribe
 
 ######################################################
 # The "API Collection" resource APIs
@@ -284,6 +293,8 @@ paths:
       x-wso2-response: "HTTP/1.1 200 OK \n Content-Disposition: attachment; filename=\"PizzaShackAPI_1.0.0_java.zip\"  \n Date: Wed, 12 Oct 2016 11:10:49 GMT \n Content-Type: application/zip \n Transfer-Encoding: chunked \n Server: WSO2 Carbon Server"
       summary: |
         Generate SDK for an API
+      security:
+        - OAuth2: [apim:subscribe]   
       description: |
         This operation can be used to generate SDK for an API by providing the id of the API along with the preferred language.
       parameters:
@@ -625,6 +636,8 @@ paths:
       x-wso2-response: "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n   \"previous\": \"\",\n   \"list\":    [\n            {\n         \"groupId\": \"\",\n         \"subscriber\": \"admin\",\n         \"throttlingTier\": \"Unlimited\",\n         \"applicationId\": \"367a2361-8db5-4140-8133-c6c8dc7fa0c4\",\n         \"description\": \"\",\n         \"status\": \"APPROVED\",\n         \"name\": \"app1\"\n      },\n            {\n         \"groupId\": \"\",\n         \"subscriber\": \"admin\",\n         \"throttlingTier\": \"Unlimited\",\n         \"applicationId\": \"896658a0-b4ee-4535-bbfa-806c894a4015\",\n         \"description\": null,\n         \"status\": \"APPROVED\",\n         \"name\": \"DefaultApplication\"\n      }\n   ],\n   \"count\": 2,\n   \"next\": \"\"\n}"
       summary: |
         Retrieve/Search applications
+      security:
+        - OAuth2: [apim:subscribe]   
       description: |
         This operation can be used to retrieve list of applications that is belonged to the user associated with the provided access token.
       parameters:
@@ -691,6 +704,8 @@ paths:
       x-wso2-response: "HTTP/1.1 201 Created\nLocation: https://localhost:9443/api/am/store/v0.11/applications/c30f3a6e-ffa4-4ae7-afce-224d1f820524\nContent-Type: application/json\n\n{\n   \"groupId\": null,\n   \"callbackUrl\": \"http://my.server.com/callback\",\n   \"subscriber\": \"admin\",\n   \"throttlingTier\": \"Unlimited\",\n   \"applicationId\": \"c30f3a6e-ffa4-4ae7-afce-224d1f820524\",\n   \"description\": \"sample app description\",\n   \"status\": \"APPROVED\",\n   \"name\": \"sampleapp\",\n   \"keys\": []\n}"
       summary: |
         Create a new application
+      security:
+        - OAuth2: [apim:subscribe] 
       description: |
         This operation can be used to create a new application specifying the details of the application in the payload.
       parameters:
@@ -761,6 +776,8 @@ paths:
       x-wso2-response: "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n   \"groupId\": \"\",\n   \"callbackUrl\": null,\n   \"subscriber\": \"admin\",\n   \"throttlingTier\": \"Unlimited\",\n   \"applicationId\": \"896658a0-b4ee-4535-bbfa-806c894a4015\",\n   \"description\": null,\n   \"status\": \"APPROVED\",\n   \"name\": \"DefaultApplication\",\n   \"keys\": [   {\n      \"consumerKey\": \"AVoREWiB16kY_GTIzscl40GYYZQa\",\n      \"consumerSecret\": \"KXQxmS8W3xDvvJH4AfR6xrhKIeIa\",\n      \"keyState\": \"COMPLETED\",\n      \"keyType\": \"PRODUCTION\",\n      \"supportedGrantTypes\": null,\n      \"token\":       {\n         \"validityTime\": 3600,\n         \"accessToken\": \"3887da6d111f0429c6dff47a46e87209\",\n         \"tokenScopes\":          [\n            \"am_application_scope\",\n            \"default\"\n         ]\n      }\n   }]\n}"
       summary: |
         Get details of an application
+      security:
+        - OAuth2: [apim:subscribe] 
       description: |
         This operation can be used to retrieve details of an individual application specifying the application id in the URI.
       parameters:
@@ -818,6 +835,8 @@ paths:
       x-wso2-response: "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n   \"groupId\": null,\n   \"callbackUrl\": \"\",\n   \"subscriber\": \"admin\",\n   \"throttlingTier\": \"Bronze\",\n   \"applicationId\": \"c30f3a6e-ffa4-4ae7-afce-224d1f820524\",\n   \"description\": \"sample app description updated\",\n   \"status\": \"APPROVED\",\n   \"name\": \"sampleapp\",\n   \"keys\": []\n}"
       summary: |
         Update an application
+      security:
+        - OAuth2: [apim:subscribe] 
       description: |
         This operation can be used to update an application. Upon succesfull you will retrieve the updated application as the response.
       parameters:
@@ -890,6 +909,8 @@ paths:
       x-wso2-response: "HTTP/1.1 200 OK"
       summary: |
         Remove an application
+      security:
+        - OAuth2: [apim:subscribe] 
       description: |
         This operation can be used to remove an application specifying its id.
       parameters:
@@ -931,6 +952,8 @@ paths:
       x-wso2-response: "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n   \"consumerSecret\": \"8V7DDKtKGtuG_9GDjaOJ5sijdX0a\",\n   \"consumerKey\": \"LOFL8He72MSGVil4SS_bsh9O8MQa\",\n   \"keyState\": \"APPROVED\",\n   \"keyType\": \"PRODUCTION\",\n   \"supportedGrantTypes\":    [\n      \"urn:ietf:params:oauth:grant-type:saml2-bearer\",\n      \"iwa:ntlm\",\n      \"refresh_token\",\n      \"client_credentials\",\n      \"password\"\n   ],\n   \"token\":    {\n      \"validityTime\": 3600,\n      \"accessToken\": \"fd2cdc4906fbc162e033d57f85a71c21\",\n      \"tokenScopes\":       [\n         \"am_application_scope\",\n         \"default\"\n      ]\n   }\n}"
       summary: |
         Generate keys for application
+      security:
+        - OAuth2: [apim:subscribe] 
       description: |
         This operation can be used to generate client Id and client secret for an application
       parameters:
@@ -1005,6 +1028,8 @@ paths:
       x-wso2-response: "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n   \"previous\": \"\",\n   \"list\":    [\n            {\n         \"tier\": \"Bronze\",\n         \"subscriptionId\": \"03b8ef2b-5ae5-41f5-968e-52fa7fbd5d33\",\n         \"apiIdentifier\": \"admin-PhoneVerification-2.0.0\",\n         \"applicationId\": \"896658a0-b4ee-4535-bbfa-806c894a4015\",\n         \"status\": \"UNBLOCKED\"\n      },\n            {\n         \"tier\": \"Bronze\",\n         \"subscriptionId\": \"5ed42650-9f5e-4dd4-94f3-3f09f1b17354\",\n         \"apiIdentifier\": \"admin-PhoneVerification-2.0.0\",\n         \"applicationId\": \"846118a5-3b25-4c22-a983-2d0278936f09\",\n         \"status\": \"UNBLOCKED\"\n      }\n   ],\n   \"count\": 2,\n   \"next\": \"\"\n}"
       summary: |
         Get all subscriptions
+      security:
+        - OAuth2: [apim:subscribe] 
       description: |
         This operation can be used to retrieve a list of subscriptions of the user associated with the provided access token. This operation is capable of
         
@@ -1063,6 +1088,8 @@ paths:
       x-wso2-response: "HTTP/1.1 201 Created\nLocation: https://localhost:9443/api/am/store/v0.11/subscriptions/5b65808c-cdf2-43e1-a695-de63e3ad0ae9\nContent-Type: application/json\n\n{\n   \"tier\": \"Gold\",\n   \"subscriptionId\": \"5b65808c-cdf2-43e1-a695-de63e3ad0ae9\",\n   \"apiIdentifier\": \"admin-PhoneVerification-2.0.0\",\n   \"applicationId\": \"c30f3a6e-ffa4-4ae7-afce-224d1f820524\",\n   \"status\": \"UNBLOCKED\"\n}"
       summary: |
         Add a new subscription
+      security:
+        - OAuth2: [apim:subscribe] 
       description: |
         This operation can be used to add a new subscription providing the id of the API and the application.
       parameters:
@@ -1125,6 +1152,8 @@ paths:
       x-wso2-response: "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n   \"tier\": \"Gold\",\n   \"subscriptionId\": \"5b65808c-cdf2-43e1-a695-de63e3ad0ae9\",\n   \"apiIdentifier\": \"admin-PhoneVerification-2.0.0\",\n   \"applicationId\": \"c30f3a6e-ffa4-4ae7-afce-224d1f820524\",\n   \"status\": \"UNBLOCKED\"\n}"
       summary: |
         Get details of a subscription
+      security:
+        - OAuth2: [apim:subscribe] 
       description: |
         This operation can be used to get details of a single subscription.
       parameters:
@@ -1175,6 +1204,8 @@ paths:
       x-wso2-response: "HTTP/1.1 200 OK"
       summary: |
         Remove a subscription
+      security:
+        - OAuth2: [apim:subscribe]         
       description: |
         This operation can be used to remove a subscription.
       parameters:
