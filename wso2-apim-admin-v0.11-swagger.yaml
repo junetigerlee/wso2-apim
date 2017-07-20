@@ -84,7 +84,7 @@ x-wso2-security:
 securityDefinitions:
   OAuth2:
     type: oauth2
-    flow: accessCode
+    flow: password
     authorizationUrl: https://apis.wso2.com/oauth2/authorize
     tokenUrl: https://apis.wso2.com/oauth2/token
     scopes:
