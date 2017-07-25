@@ -1,0 +1,182 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.11.0",
+        "title": "WSO2 API Manager - Token",
+        "description": "This document specifies a **RESTful API** for WSO2 **API Manager** - Token .\n\nIt is written with [swagger 2](http://swagger.io/).\n",
+        "contact": {
+            "name": "WSO2",
+            "url": "http://wso2.com/products/api-manager/",
+            "email": "architecture@wso2.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "schemes": [
+        "https"
+    ],
+    "host": "apis.wso2.com",
+    "basePath": "/oauth2",
+    "consumes": [
+        "application/json",
+        "application/x-www-form-urlencoded"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic"
+        }
+    },
+    "paths": {
+        "/token": {
+            "post": {
+                "summary": "generate access tokens and authorize them",
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "description": "generate access tokens and authorize them\n",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "grant_type",
+                        "type": "string",
+                        "enum": [
+                            "password",
+                            "refresh_token",
+                            "client_credentials"
+                        ],
+                        "description": "",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "username",
+                        "type": "string",
+                        "description": "",
+                        "required": false
+                    },
+                    {
+                        "in": "formData",
+                        "name": "password",
+                        "type": "string",
+                        "description": "",
+                        "required": false
+                    },
+                    {
+                        "in": "formData",
+                        "name": "refresh_token",
+                        "type": "string",
+                        "description": "",
+                        "required": false
+                    },
+                    {
+                        "in": "formData",
+                        "name": "scope",
+                        "type": "string",
+                        "description": "",
+                        "required": false
+                    }
+                ],
+                "tags": [
+                    "Token"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Created.\nSuccessful response with the newly access token as entity in the body.\nLocation header contains URL of newly created entity.\n",
+                        "schema": {
+                            "$ref": "#/definitions/AccessToken"
+                        },
+                        "headers": {
+                            "Location": {
+                                "description": "Location of the newly created access token object.\n",
+                                "type": "string"
+                            },
+                            "Content-Type": {
+                                "description": "The content type of the body.\n",
+                                "type": "string"
+                            },
+                            "ETag": {
+                                "description": "Entity Tag of the response resource.\nUsed by caches, or in conditional request'\n",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bad Request.\nInvalid request or validation error\n",
+                        "schema": {
+                            "$ref": "#/definitions/OAuth2Error"
+                        }
+                    },
+                    "415": {
+                        "description": "Unsupported media type.\nThe entity of the request was in a not supported format.  \n"
+                    }
+                }
+            }
+        }
+    },
+    "parameters": {
+        "grant_type": {
+            "name": "grant_type",
+            "in": "formData",
+            "description": "",
+            "type": "string",
+            "enum": [
+                "password",
+                "refresh_token",
+                "client_credentials"
+            ],
+            "required": true
+        }
+    },
+    "definitions": {
+        "AccessToken": {
+            "title": "Access Token",
+            "properties": {
+                "expires_in": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "expires_in.\n"
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "description": "refresh_token.\n"
+                },
+                "access_token": {
+                    "type": "string",
+                    "description": "access_token.\n"
+                },
+                "token_type": {
+                    "type": "string",
+                    "description": "token_type.\n"
+                },
+                "scope": {
+                    "type": "string",
+                    "description": "scope.\n"
+                }
+            }
+        },
+        "OAuth2Error": {
+            "title": "OAuth2 Error object",
+            "required": [
+                "error",
+                "error_description"
+            ],
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "description": "Error message."
+                },
+                "error_description": {
+                    "type": "string",
+                    "description": "A detail description about the error message.\n"
+                }
+            }
+        }
+    }
+}
