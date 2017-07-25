@@ -20,7 +20,6 @@
     "host": "apis.wso2.com",
     "basePath": "/oauth2",
     "consumes": [
-        "application/json",
         "application/x-www-form-urlencoded"
     ],
     "produces": [
