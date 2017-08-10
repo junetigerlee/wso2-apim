@@ -1,0 +1,128 @@
+swagger: '2.0'
+info:
+  version: 0.11.0
+  title: WSO2 API Manager - Store Portal API
+  description: >
+    This specifies a **Store Portal API** for WSO2 **API Manager** - Store
+    Portal.
+host: apis.wso2.com
+schemes:
+  - https
+basePath: /store/site/blocks
+consumes:
+  - application/x-www-form-urlencoded
+produces:
+  - application/json
+paths:
+  /user/login/ajax/login.jag:
+    post:
+      tags:
+        - login
+      parameters:
+        - name: action
+          in: formData
+          required: true
+          type: string
+          default: login
+        - name: username
+          in: formData
+          required: true
+          type: string
+          default: admin
+        - name: password
+          in: formData
+          required: true
+          type: string
+          default: admin
+        - name: tenant
+          in: formData
+          required: false
+          type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/LoginResponse'
+  /subscription/subscription-add/ajax/subscription-add.jag:
+    post:
+      summary: RegenerateKey
+      description: RegenerateKey
+      tags:
+        - RegenerateKey
+      parameters:
+        - name: action
+          in: formData
+          type: string
+          required: true
+          enum:
+            - refreshToken
+          default: refreshToken
+        - name: application
+          in: formData
+          type: string
+          required: true
+        - name: keytype
+          in: formData
+          type: string
+          required: true
+          enum:
+            - PRODUCTION
+            - SANDBOX
+        - name: oldAccessToken
+          in: formData
+          type: string
+          required: true
+        - name: clientId
+          in: formData
+          type: string
+          required: true
+        - name: clientSecret
+          in: formData
+          type: string
+          required: true
+        - name: validityTime
+          in: formData
+          type: integer
+          required: true
+        - name: tokenScope
+          in: formData
+          type: string
+          required: false
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/RegenerateKeyResponse'
+definitions:
+  LoginResponse:
+    type: object
+    properties:
+      error:
+        type: boolean
+  RegenerateKeyResponse:
+    type: object
+    properties:
+      error:
+        type: boolean
+      data:
+        type: object
+        properties:
+          key:
+            type: object
+            properties:
+              accessToken:
+                type: string
+              consumerKey:
+                type: string
+              consumerSecret:
+                type: string
+              responseParams:
+                type: string
+              tokenScope:
+                type: array
+                items:
+                  type: string
+              validityTime:
+                type: integer
+              enableRegenarate:
+                type: boolean
